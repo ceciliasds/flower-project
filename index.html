@@ -8,21 +8,21 @@
     body {
       margin: 0;
       height: 100vh;
-      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      background: linear-gradient(to right, #ffd6e0, #ffe5cc); /* Light pink to peach */
       display: flex;
       justify-content: center;
       align-items: center;
       flex-direction: column;
       overflow: hidden;
       font-family: Arial, sans-serif;
-      color: white;
+      color: #a12c4e; /* Softer deep pink text */
       text-align: center;
       padding: 20px;
     }
 
     h1 {
       font-size: clamp(2rem, 6vw, 3rem);
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
       margin-bottom: 10px;
     }
 
@@ -35,7 +35,7 @@
 
     .names {
       font-weight: bold;
-      color: #ffe680;
+      color: #ff8a8a;
       font-size: clamp(1.2rem, 5vw, 1.8rem);
       margin-top: 10px;
     }
@@ -43,9 +43,10 @@
     /* Floating hearts */
     .heart {
       position: absolute;
+      bottom: -30px; /* Start below the screen */
       width: 20px;
       height: 20px;
-      background: red;
+      background: #ff4d6d;
       transform: rotate(45deg);
       animation: floatUp 5s linear infinite;
     }
@@ -56,7 +57,7 @@
       position: absolute;
       width: 20px;
       height: 20px;
-      background: red;
+      background: #ff4d6d;
       border-radius: 50%;
     }
 
@@ -76,7 +77,7 @@
         opacity: 1;
       }
       100% {
-        transform: translateY(-800px) rotate(45deg) scale(0.5);
+        transform: translateY(-100vh) rotate(45deg) scale(0.5);
         opacity: 0;
       }
     }
@@ -107,7 +108,7 @@
       margin-top: 10px;
       padding: 8px 15px;
       border: none;
-      background: #ff758c;
+      background: #ff8a8a;
       color: white;
       border-radius: 8px;
       font-size: 1rem;
@@ -121,19 +122,20 @@
 </head>
 <body>
   <h1>Happy National Girlfriend Day!</h1>
-  <p><span class="names">Allysa & Denise 💕 </span></p>
+  <p><span class="names">Allysa & Denise 💕</span></p>
 
   <!-- Background Music -->
-  <audio autoplay loop>
-    <source src="https://www.bensound.com/bensound-music/bensound-sunny.mp3" type="audio/mpeg">
+  <audio id="bg-music" autoplay loop>
+    <source src="https://files.catbox.moe/n5v2l6.mp3" type="audio/mpeg"> 
     Your browser does not support the audio element.
   </audio>
 
   <!-- Surprise Pop-up -->
   <div id="popup">
     <h2>Surprise! 🎉</h2>
-    <p>Allysa & Denise, you’re truly special. Thank you for always being there, making life brighter and happier.</p>
-    <p>Life feels lighter and more colorful because of both of you! </p>
+    <p>Allysa & Denise, you’re truly special 💖<br>
+    Thank you for always being there and making my life brighter and happier 🌸<br>
+    Life feels lighter and more colorful because of both of you 💕</p>
     <button onclick="closePopup()">Close</button>
   </div>
 
@@ -157,7 +159,14 @@
     function closePopup() {
       document.getElementById("popup").classList.remove("show");
     }
+
+    // Fix autoplay issue (mobile browsers block autoplay)
+    document.body.addEventListener('click', () => {
+      const music = document.getElementById('bg-music');
+      if (music.paused) {
+        music.play();
+      }
+    }, { once: true });
   </script>
 </body>
 </html>
-
