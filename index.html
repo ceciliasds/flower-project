@@ -15,7 +15,7 @@
       flex-direction: column;
       overflow: hidden;
       font-family: Arial, sans-serif;
-      color: #a12c4e; /* Softer deep pink text */
+      color: #a12c4e;
       text-align: center;
       padding: 20px;
     }
@@ -43,7 +43,7 @@
     /* Floating hearts */
     .heart {
       position: absolute;
-      bottom: -30px; /* Start below the screen */
+      bottom: -30px;
       width: 20px;
       height: 20px;
       background: #ff4d6d;
@@ -118,6 +118,27 @@
     #popup button:hover {
       background: #ff4d6d;
     }
+
+    /* Music play button */
+    #playBtn {
+      position: fixed;
+      bottom: 20px;
+      background: #ff8a8a;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      z-index: 2000;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
   </style>
 </head>
 <body>
@@ -125,10 +146,13 @@
   <p><span class="names">Allysa & Denise 💕</span></p>
 
   <!-- Background Music -->
-  <audio id="bg-music" autoplay loop>
+  <audio id="bg-music" loop>
     <source src="https://files.catbox.moe/n5v2l6.mp3" type="audio/mpeg"> 
     Your browser does not support the audio element.
   </audio>
+
+  <!-- Tap to play button -->
+  <button id="playBtn">Tap to Play Music 🎵</button>
 
   <!-- Surprise Pop-up -->
   <div id="popup">
@@ -145,7 +169,7 @@
       const heart = document.createElement("div");
       heart.classList.add("heart");
       heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = Math.random() * 3 + 2 + "s"; // 2-5 sec
+      heart.style.animationDuration = Math.random() * 3 + 2 + "s";
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 5000);
     }
@@ -160,13 +184,14 @@
       document.getElementById("popup").classList.remove("show");
     }
 
-    // Fix autoplay issue (mobile browsers block autoplay)
-    document.body.addEventListener('click', () => {
-      const music = document.getElementById('bg-music');
-      if (music.paused) {
-        music.play();
-      }
-    }, { once: true });
+    // Music play handling
+    const playBtn = document.getElementById('playBtn');
+    const bgMusic = document.getElementById('bg-music');
+
+    playBtn.addEventListener('click', () => {
+      bgMusic.play();
+      playBtn.style.display = 'none'; // hide button after play
+    });
   </script>
 </body>
 </html>
