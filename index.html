@@ -8,7 +8,7 @@
     body {
       margin: 0;
       height: 100vh;
-      background: linear-gradient(to right, #ffd6e0, #ffe5cc); /* Light pink to peach */
+      background: linear-gradient(to right, #ffd6e0, #ffe5cc);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -19,28 +19,23 @@
       text-align: center;
       padding: 20px;
     }
-
     h1 {
       font-size: clamp(2rem, 6vw, 3rem);
-      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
       margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
     }
-
     p {
       font-size: clamp(1rem, 4vw, 1.5rem);
       max-width: 500px;
-      margin: 0 10px 10px;
       line-height: 1.4;
     }
-
     .names {
       font-weight: bold;
       color: #ff8a8a;
       font-size: clamp(1.2rem, 5vw, 1.8rem);
-      margin-top: 10px;
     }
 
-    /* Floating hearts */
+    /* Hearts */
     .heart {
       position: absolute;
       bottom: -30px;
@@ -50,7 +45,6 @@
       transform: rotate(45deg);
       animation: floatUp 5s linear infinite;
     }
-
     .heart::before,
     .heart::after {
       content: "";
@@ -60,30 +54,15 @@
       background: #ff4d6d;
       border-radius: 50%;
     }
-
-    .heart::before {
-      top: -10px;
-      left: 0;
-    }
-
-    .heart::after {
-      top: 0;
-      left: -10px;
-    }
-
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { top: 0; left: -10px; }
     @keyframes floatUp {
-      0% {
-        transform: translateY(0) rotate(45deg) scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100vh) rotate(45deg) scale(0.5);
-        opacity: 0;
-      }
+      0% { transform: translateY(0) rotate(45deg) scale(1); opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(45deg) scale(0.5); opacity: 0; }
     }
 
-    /* Pop-up surprise box */
-    #popup {
+    /* Pop-up boxes */
+    .popup {
       position: fixed;
       top: 50%;
       left: 50%;
@@ -99,12 +78,10 @@
       max-width: 300px;
       z-index: 1000;
     }
-
-    #popup.show {
+    .popup.show {
       transform: translate(-50%, -50%) scale(1);
     }
-
-    #popup button {
+    .popup button {
       margin-top: 10px;
       padding: 8px 15px;
       border: none;
@@ -114,30 +91,20 @@
       font-size: 1rem;
       cursor: pointer;
     }
-
-    #popup button:hover {
+    .popup button:hover {
       background: #ff4d6d;
     }
 
-    /* Music play button */
-    #playBtn {
-      position: fixed;
-      bottom: 20px;
-      background: #ff8a8a;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 20px;
-      font-size: 1rem;
-      cursor: pointer;
-      border: none;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      z-index: 2000;
-      animation: pulse 1.5s infinite;
+    /* Bouquet image in second popup */
+    .bouquet {
+      width: 120px;
+      margin: 10px auto;
+      display: block;
     }
-
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
+    .bouquet-text {
+      font-size: 1rem;
+      color: #a12c4e;
+      margin-top: 8px;
     }
   </style>
 </head>
@@ -145,22 +112,21 @@
   <h1>Happy National Girlfriend Day!</h1>
   <p><span class="names">Allysa & Denise 💕</span></p>
 
-  <!-- Background Music -->
-  <audio id="bg-music" loop>
-    <source src="https://files.catbox.moe/n5v2l6.mp3" type="audio/mpeg"> 
-    Your browser does not support the audio element.
-  </audio>
-
-  <!-- Tap to play button -->
-  <button id="playBtn">Tap to Play Music 🎵</button>
-
-  <!-- Surprise Pop-up -->
-  <div id="popup">
+  <!-- First Pop-up -->
+  <div id="popup1" class="popup">
     <h2>Surprise! 🎉</h2>
     <p>Allysa & Denise, you’re truly special 💖<br>
     Thank you for always being there and making my life brighter and happier 🌸<br>
     Life feels lighter and more colorful because of both of you 💕</p>
-    <button onclick="closePopup()">Close</button>
+    <button onclick="closeFirstPopup()">Close</button>
+  </div>
+
+  <!-- Second Pop-up (Bouquet) -->
+  <div id="popup2" class="popup">
+    <h2>Another Surprise! 💐</h2>
+    <img class="bouquet" src="https://i.imgur.com/6l8ebQk.png" alt="Bouquet of flowers">
+    <div class="bouquet-text">Oh ayan bulaklak enaka sad 🌸</div>
+    <button onclick="closeSecondPopup()">Close</button>
   </div>
 
   <script>
@@ -175,23 +141,23 @@
     }
     setInterval(createHeart, 300);
 
-    // Pop-up after 5 seconds
+    // Show first popup after 5 seconds
     setTimeout(() => {
-      document.getElementById("popup").classList.add("show");
+      document.getElementById("popup1").classList.add("show");
     }, 5000);
 
-    function closePopup() {
-      document.getElementById("popup").classList.remove("show");
+    // Close first popup and show second popup
+    function closeFirstPopup() {
+      document.getElementById("popup1").classList.remove("show");
+      setTimeout(() => {
+        document.getElementById("popup2").classList.add("show");
+      }, 500); // slight delay for smooth transition
     }
 
-    // Music play handling
-    const playBtn = document.getElementById('playBtn');
-    const bgMusic = document.getElementById('bg-music');
-
-    playBtn.addEventListener('click', () => {
-      bgMusic.play();
-      playBtn.style.display = 'none'; // hide button after play
-    });
+    // Close second popup
+    function closeSecondPopup() {
+      document.getElementById("popup2").classList.remove("show");
+    }
   </script>
 </body>
 </html>
